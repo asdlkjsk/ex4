@@ -5,8 +5,12 @@
 	<title>Home</title>
 </head>
 <body>
+
+	<a href="notice/noticeList">notice</a>
+	<a href="freeBoard/freeBoardList">freeBoard</a>
+	
 <h1>
-	Hello world!  
+	Hello world!
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
