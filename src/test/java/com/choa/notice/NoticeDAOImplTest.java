@@ -4,36 +4,52 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import javax.swing.Spring;
-
-import org.junit.Assert;
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.choa.board.BoardDTO;
 import com.choa.util.PageMaker;
+
+
 
 public class NoticeDAOImplTest extends MyAbstractTest {	//빈클래스 하나만들어서 상속받으면됨
 	
-	@Autowired		//이렇게 해야댐
-	private NoticeDAOImpl noticeDAO;
+	@Autowired
+	private NoticeDAOImpl noticeDAOImpl;
 	
 	@Test
-	public void test() throws Exception {
-		//NoticeDAO noticeDAO = new NoticeDAO();	//이건 무조건 Null임 / Service 보면 View 할때 datasource를 xml에서 받아 써서 안됨
-		/*NoticeDTO noticeDTO = noticeDAO.noticeView(800);
-		System.out.println(noticeDTO.getTitle());
-		assertNotNull(noticeDTO);*/
-		PageMaker pageMaker = new PageMaker(1, 10);
-		List<NoticeDTO> ar = noticeDAO.noticeList(pageMaker.getRowMaker());
-		assertEquals(0, ar.size());
+	public void connetonTest() throws Exception {
+		PageMaker pageMaker = new PageMaker(1, 20);
+		
+		List<BoardDTO> ar = noticeDAOImpl.boardList(pageMaker.getRowMaker());
+		
+		assertNotEquals(0, ar.size());
+		
+		
+		
+		/*int result = noticeDAOImpl.boardDelete(102);
+		
+		assertNotNull(result);*/
 	}
 	
-	//@Test
-	public void test2() throws Exception {
-		int result = noticeDAO.noticeDelete(33);
-		assertEquals(1, result);
+	public void countTest() throws Exception {
+		int count = noticeDAOImpl.boardCount();
+		
+		assertNotEquals(0, count);
 	}
+		
+	
+	/*@Test
+	public void noticeUpdate() throws Exception{
+		NoticeDTO noticeDTO = new NoticeDTO();
+		noticeDTO.setTitle("updatetest!!");
+		noticeDTO.setContents("싸인회 하는겁니까?");
+		noticeDTO.setNum(401);
+		int result = noticeDAOImpl.boardUpdate(noticeDTO);
+		System.out.println(result);
+		assertEquals(1, result);
+	}*/
+	   
+	  
 }

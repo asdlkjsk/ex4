@@ -26,7 +26,7 @@ public class NoticeController {
 	
 	//list
 	@RequestMapping(value = "noticeList", method = RequestMethod.GET)
-	public String noticeList(Model model, @RequestParam(defaultValue = "1") Integer curPage) throws Exception{
+	public String noticeList(Model model, @RequestParam(defaultValue = "1") Integer curPage, String search, String kind) throws Exception{
 		List<BoardDTO> ar = noticeService.boardList(curPage);
 		model.addAttribute("list" , ar);
 		model.addAttribute("board", "notice");
@@ -64,8 +64,11 @@ public class NoticeController {
 	
 	//Form
 	@RequestMapping(value="noticeUpdate", method=RequestMethod.GET)
-	public void noticeUpdate(Model model){
-		model.addAttribute("path", "Write");
+	public String noticeUpdate(Integer num, Model model) throws Exception{
+		BoardDTO noticeDTO = noticeService.boardView(num);
+		model.addAttribute("dto", noticeDTO);
+		model.addAttribute("path", "Update");
+		return "notice/noticeWrite";
 	}
 	
 	//update

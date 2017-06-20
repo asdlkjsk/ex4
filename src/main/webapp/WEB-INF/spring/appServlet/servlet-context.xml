@@ -21,10 +21,16 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.choa.ex4" />
-	<context:component-scan base-package="com.choa.notice" />
-	<context:component-scan base-package="com.choa.freeBoard" />
+	<!-- <context:component-scan base-package="com.choa.ex4" use-default-filters="false" /> -->	<!-- 이렇게 돌리면 아무것도 못찾는다 -->
 	
-	
+	<context:component-scan base-package="com.choa.ex4" use-default-filters="false">
+		<!-- <context:include-filter type="annotation" expression="Controller"/> 이렇게 치는거아니고 풀패키지명 쓰는거임 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> <!--컨트롤러만 찾는다 -->
+	</context:component-scan>
+	<!-- <context:component-scan base-package="com.choa.notice" /> -->
+	<context:component-scan base-package="com.choa.notice">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>	<!-- 컨트롤러만 제외하겠다 -->
+	</context:component-scan>
+	<context:component-scan base-package="com.choa.freeBoard" />	
 	
 </beans:beans>
