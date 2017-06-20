@@ -1,15 +1,7 @@
 package com.choa.notice;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.inject.Inject;
-import javax.sql.DataSource;
-import javax.xml.stream.events.Namespace;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.choa.board.BoardDAO;
 import com.choa.board.BoardDTO;
-import com.choa.util.DBConnector;
+import com.choa.util.ListInfo;
 import com.choa.util.RowMaker;
 
 @Repository	//("id")
@@ -36,8 +28,12 @@ public class NoticeDAOImpl implements BoardDAO {
 	}*/	
 	
 	@Override
-	public List<BoardDTO> boardList(RowMaker rowMaker) throws Exception {
-		 return sqlSession.selectList(NAMESPACE+"list", rowMaker);
+	public List<BoardDTO> boardList(ListInfo listInfo) throws Exception {
+	/*	HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("rowMaker", rowMaker);
+		map.put("search", search);
+		map.put("find", find);*/
+		return sqlSession.selectList(NAMESPACE+"list", listInfo);
 	}
 
 
@@ -70,8 +66,8 @@ public class NoticeDAOImpl implements BoardDAO {
 
 
 	@Override
-	public int boardCount() throws Exception {
-		return sqlSession.selectOne(NAMESPACE+"count");
+	public int boardCount(ListInfo listInfo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"count", listInfo);
 	}
 
 

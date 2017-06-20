@@ -4,17 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="NoticeMapper">
-	<select id="count" resultType="java.lang.Integer">
-		select count(nvl(num,0)) from notice
+	<sql id="search">
+		<trim prefix="where" prefixOverrides="and || or">
+			<if test="search == 'title'">
+				title like '%' || #{find} || '%' 
+			</if>
+			<if test="search == 'writer'">
+				writer like '%' || #{find} || '%' 
+			</if>
+			<if test="search == 'contents'">
+				contents like '%' || #{find} || '%' 
+			</if>
+		</trim>
+	</sql>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="com.choa.util.ListInfo">
+		select count(nvl(num,0)) from notice 
+		<include refid="search"></include>
 	</select>	
 
-	<select id="list" resultType="com.choa.notice.NoticeDTO" parameterType="com.choa.util.RowMaker"><!-- 이러면 지가 알아서 List로 만들어준대 -->
+	<select id="list" resultType="com.choa.notice.NoticeDTO" parameterType="com.choa.util.ListInfo"><!-- 이러면 지가 알아서 List로 만들어준대 -->
 		select * from
 		(select rownum R, N.* from 
-		(select * from notice order by num desc) N)
+		(select * from notice  
+		<include refid="search"></include>
+		order by num desc) N)
 		where R between #{startRow} and #{lastRow}
-	</select>
-	
+	</select>	
 	
 	<select id="view" resultType="com.choa.notice.NoticeDTO" parameterType="java.lang.Integer">
 		select * from notice where num = #{num}
@@ -27,10 +43,7 @@
 	<update id="update" parameterType="com.choa.notice.NoticeDTO">
 		update notice set title=#{title}, contents=#{contents} where num=#{num}
 	</update>
-	
-	
-	
-	
+		
 	<delete id="delete" parameterType="java.lang.Integer">
 		delete notice where num = #{num}
 	</delete>

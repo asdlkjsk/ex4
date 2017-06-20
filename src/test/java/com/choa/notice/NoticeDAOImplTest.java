@@ -20,10 +20,11 @@ public class NoticeDAOImplTest extends MyAbstractTest {	//빈클래스 하나만
 	
 	@Test
 	public void connetonTest() throws Exception {
-		PageMaker pageMaker = new PageMaker(1, 20);
+PageMaker pageMaker = new PageMaker(1, 20);
 		
-		List<BoardDTO> ar = noticeDAOImpl.boardList(pageMaker.getRowMaker());
-		
+		List<BoardDTO> ar = noticeDAOImpl.boardList(pageMaker.getRowMaker(), "writer", "choa");
+		System.out.println(ar.get(0).getWriter());
+		System.out.println(ar.get(1).getWriter());
 		assertNotEquals(0, ar.size());
 		
 		
